@@ -1,15 +1,17 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
+import type { NextPage } from "next"
+import Head from "next/head"
+
+import { Header } from "components"
 
 const Home: NextPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="">
       <Head>
         <title>Home - Netflix</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <h1>Lets have a netflix clone!</h1>
+      <Header />
+      <main> 
       </main>
     </div>
   )
