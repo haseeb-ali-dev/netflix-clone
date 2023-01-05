@@ -38,13 +38,13 @@ const Header = () => {
         <MagnifyingGlassIcon className="hidden w-6 h-6 sm sm:inline" />
         <p className="hidden lg:inline">Kids</p>
         <BellIcon className="w-6 h-6" onClick={logout} />
-        {/* <Link href="/account"> */}
-        <img
-          src="https://rb.gy/g1pwyx"
-          alt="Acct"
-          className="rounded cursor-pointer"
-        />
-        {/* </Link> */}
+        <Link href="/account">
+          <img
+            src="https://rb.gy/g1pwyx"
+            alt="Acct"
+            className="rounded cursor-pointer"
+          />
+        </Link>
       </div>
     </header>
   )
