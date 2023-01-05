@@ -4,11 +4,11 @@ import {
   signInWithEmailAndPassword,
   signOut,
   User,
-} from 'firebase/auth'
-import { useRouter } from 'next/router'
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+} from "firebase/auth"
+import { useRouter } from "next/router"
+import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
-import { auth } from '../firebase'
+import { auth } from "../firebase"
 
 interface IAuth {
   user: User | null
@@ -21,9 +21,9 @@ interface IAuth {
 
 const AuthContext = createContext<IAuth>({
   user: null,
-  signUp: async () => { },
-  signIn: async () => { },
-  logout: async () => { },
+  signUp: async () => {},
+  signIn: async () => {},
+  logout: async () => {},
   error: null,
   loading: false,
 })
@@ -39,41 +39,45 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [initialLoading, setInitialLoading] = useState(true)
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // Logged in...
-      setUser(user)
-      setLoading(false)
-    } else {
-      // Not logged in...
-      setUser(null)
-      setLoading(true)
-      router.push('/login')
-    }
-    setInitialLoading(false)
-  }), [auth])
+  useEffect(
+    () =>
+      onAuthStateChanged(auth, user => {
+        if (user) {
+          // Logged in...
+          setUser(user)
+          setLoading(false)
+        } else {
+          // Not logged in...
+          setUser(null)
+          setLoading(true)
+          router.push("/login")
+        }
+        setInitialLoading(false)
+      }),
+    [auth],
+  )
 
   const signUp = async (email: string, password: string) => {
     setLoading(true)
     await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(userCredential => {
         setUser(userCredential.user)
-        router.push('/')
+        router.push("/")
         setLoading(false)
       })
-      .catch((error) => alert(error.message))
+      .catch(error => alert(error.message))
       .finally(() => setLoading(false))
   }
 
   const signIn = async (email: string, password: string) => {
     setLoading(true)
     await signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(userCredential => {
         setUser(userCredential.user)
-        router.push('/')
+        router.push("/")
         setLoading(false)
       })
-      .catch((error) => alert(error.message))
+      .catch(error => alert(error.message))
       .finally(() => setLoading(false))
   }
 
@@ -81,11 +85,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setLoading(true)
     signOut(auth)
       .then(() => setUser(null))
-      .catch((error) => alert(error.message))
+      .catch(error => alert(error.message))
       .finally(() => setLoading(false))
   }
 
-  const memoedValue = useMemo(() => ({ user, signUp, signIn, error, loading, logout }), [user, loading, error])
+  const memoedValue = useMemo(
+    () => ({ user, signUp, signIn, error, loading, logout }),
+    [user, loading, error],
+  )
 
   return (
     <AuthContext.Provider value={memoedValue}>

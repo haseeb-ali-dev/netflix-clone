@@ -1,9 +1,9 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { useState } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import Head from "next/head"
+import Image from "next/image"
+import { useState } from "react"
+import { useForm, SubmitHandler } from "react-hook-form"
 
-import useAuth from 'hooks/useAuth'
+import useAuth from "hooks/useAuth"
 
 interface Inputs {
   email: string
@@ -13,9 +13,13 @@ interface Inputs {
 const Login = () => {
   const [login, setLogin] = useState<Boolean>(false)
   const { signIn, signUp } = useAuth()
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>()
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  const onSubmit: SubmitHandler<Inputs> = async data => {
     console.log(data)
     if (login) {
       await signIn(data.email, data.password)
@@ -43,15 +47,20 @@ const Login = () => {
         width={150}
         height={150}
       />
-      <form className="relative px-6 py-10 mt-24 space-y-8 rounded bg-black/75 md:mt-0 md:max-w-md md:px-14" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="relative px-6 py-10 mt-24 space-y-8 rounded bg-black/75 md:mt-0 md:max-w-md md:px-14"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <h1 className="text-4xl font-semibold">Sign In</h1>
         <div className="space-y-4">
           <label className="inline-block w-full">
             <input
               type="email"
               placeholder="Email"
-              className={`input ${errors.email && 'border-b-2 border-orange-500'}`}
-              {...register('email', { required: true })}
+              className={`input ${
+                errors.email && "border-b-2 border-orange-500"
+              }`}
+              {...register("email", { required: true })}
             />
             {errors.email && (
               <p className="p-1 text-[13px] font-light  text-orange-500">
@@ -62,9 +71,11 @@ const Login = () => {
           <label className="inline-block w-full">
             <input
               type="password"
-              {...register('password', { required: true })}
+              {...register("password", { required: true })}
               placeholder="Password"
-              className={`input ${errors.password && 'border-b-2 border-orange-500'}`}
+              className={`input ${
+                errors.password && "border-b-2 border-orange-500"
+              }`}
             />
             {errors.password && (
               <p className="p-1 text-[13px] font-light  text-orange-500">
@@ -81,7 +92,7 @@ const Login = () => {
           Sign In
         </button>
         <div className="text-[gray]">
-          New to Netflix?{' '}
+          New to Netflix?{" "}
           <button
             className="text-white cursor-pointer hover:underline"
             onClick={() => setLogin(false)}
