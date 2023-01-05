@@ -1,40 +1,29 @@
 import { useEffect, useState } from "react"
-import { useRecoilState } from "recoil"
+import { useRecoilState, useSetRecoilState } from "recoil"
 import ReactPlayer from "react-player/lazy"
+import MuiModal from "@mui/material/Modal"
 import { FaPlay } from "react-icons/fa"
-import toast, { Toaster } from "react-hot-toast"
 import {
   HandThumbUpIcon,
+  PlusIcon,
   SpeakerXMarkIcon,
   SpeakerWaveIcon,
   XMarkIcon,
-  PlusIcon,
 } from "@heroicons/react/24/outline"
-import MuiModal from "@mui/material/Modal"
 
 import { modalState, movieState } from "atoms/modalAtom"
-import type { Element, Genre, Movie } from "typings"
+import type { Element, Genre } from "typings"
 
-function Modal() {
-  const [movie, setMovie] = useRecoilState(movieState)
-  const [trailer, setTrailer] = useState("")
-  const [showModal, setShowModal] = useRecoilState(modalState)
-  const [muted, setMuted] = useState(true)
+const Modal = () => {
+  const [trailer, setTrailer] = useState<string | null>("")
+  const [muted, setMuted] = useState<boolean>(true)
   const [genres, setGenres] = useState<Genre[]>([])
-
-  const toastStyle = {
-    background: "white",
-    color: "black",
-    fontWeight: "bold",
-    fontSize: "16px",
-    padding: "15px",
-    borderRadius: "9999px",
-    maxWidth: "1000px",
-  }
+  const [movie, setMovie] = useRecoilState(movieState)
+  const setShowModal = useSetRecoilState(modalState)
 
   useEffect(() => {
     if (!movie) return
-    async function fetchMovie() {
+    const fetchMovie = async () => {
       const data = await fetch(
         `https://api.themoviedb.org/3/${
           movie?.media_type === "tv" ? "tv" : "movie"
@@ -48,9 +37,7 @@ function Modal() {
         )
         setTrailer(data.videos?.results[index]?.key)
       }
-      if (data?.genres) {
-        setGenres(data.genres)
-      }
+      if (data?.genres) setGenres(data.genres)
     }
     fetchMovie()
   }, [movie])
@@ -58,7 +45,6 @@ function Modal() {
   const handleClose = () => {
     setShowModal(false)
     setMovie(null)
-    toast.dismiss()
   }
 
   return (
@@ -68,14 +54,12 @@ function Modal() {
       className="fixed !top-7 left-0 right-0 z-50 mx-auto w-full max-w-5xl overflow-hidden overflow-y-scroll rounded-md scrollbar-hide"
     >
       <>
-        <Toaster position="bottom-center" />
         <button
           className="modalButton absolute right-5 top-5 !z-40 h-9 w-9 border-none bg-[#181818] hover:bg-[#181818]"
           onClick={handleClose}
         >
           <XMarkIcon className="w-6 h-6" />
         </button>
-
         <div className="relative pt-[56.25%]">
           <ReactPlayer
             url={`https://www.youtube.com/watch?v=${trailer}`}

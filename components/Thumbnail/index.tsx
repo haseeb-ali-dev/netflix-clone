@@ -2,7 +2,7 @@ import Image from "next/image"
 import { useSetRecoilState } from "recoil"
 
 import { modalState, movieState } from "atoms/modalAtom"
-import { Movie } from "typings"
+import type { Movie } from "typings"
 
 interface Props {
   movie: Movie

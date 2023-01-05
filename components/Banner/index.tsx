@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil"
 import { FaPlay } from "react-icons/fa"
 import { InformationCircleIcon } from "@heroicons/react/24/outline"
 
-import Movie from "typings/movie"
+import type { Movie } from "typings"
 import { modalState, movieState } from "atoms/modalAtom"
 import { baseUrl } from "constants/movie"
 

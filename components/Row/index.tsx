@@ -2,7 +2,7 @@ import { useRef, useState } from "react"
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline"
 
 import { Thumbnail } from "components"
-import Movie from "typings/movie"
+import type { Movie } from "typings"
 
 interface Props {
   title: string
@@ -11,7 +11,7 @@ interface Props {
 
 const Row = ({ title, movies }: Props) => {
   const rowRef = useRef<HTMLDivElement>(null)
-  const [isMoved, setIsMoved] = useState<Boolean>(false)
+  const [isMoved, setIsMoved] = useState<boolean>(false)
 
   const handleClick = (direction: string) => {
     setIsMoved(true)
