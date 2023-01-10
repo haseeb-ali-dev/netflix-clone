@@ -1,7 +1,7 @@
-import Head from "next/head"
-import Image from "next/image"
 import { useState } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
+import Head from "next/head"
+import Image from "next/image"
 
 import useAuth from "hooks/useAuth"
 
